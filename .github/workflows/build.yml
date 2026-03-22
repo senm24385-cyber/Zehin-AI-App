@@ -7,20 +7,22 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '17'
           distribution: 'temurin'
 
       - name: Build System
         run: |
           npm init -y
-          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npm install @capacitor/core@5.7.0 @capacitor/cli@5.7.0 @capacitor/android@5.7.0
           mkdir -p www && echo "<html><body><h1>Zehin AI</h1></body></html>" > www/index.html
           npx cap init "Zehin AI" "com.zehin.ai" --web-dir www
           npx cap add android
           
-      - name: Sync Capacitor
-        run: npx cap sync android
-
+      - name: Update Gradle
+        run: |
+          cd android
+          sed -i 's/gradle:8.2.1/gradle:8.0.0/g' build.gradle || true
+          
       - name: Build APK
         run: |
           cd android
