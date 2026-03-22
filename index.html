@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zehin-AI: Purple Evolution</title>
+    <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore-compat.js"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { transition: background-color 0.8s ease-in-out; }
+    </style>
+</head>
+<body id="mainContent" class="bg-slate-900 text-white min-h-screen flex items-center justify-center">
+
+    <div class="text-center p-8 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl">
+        <h1 class="text-4xl font-bold mb-4 tracking-tight">ZEHIN-AI</h1>
+        <div id="statusBox" class="text-lg font-medium py-2 px-4 rounded-full bg-slate-800 inline-block mb-6">
+            Garaşylýar...
+        </div>
+        <p class="text-slate-400">Firebase arkaly reňki üýtgetmek üçin "purple" ýazyň.</p>
+    </div>
+
+    <script>
+        // Siziň skrinşotdan alnan Firebase Config-iňiz
+        const firebaseConfig = {
+            apiKey: "AIzaSyAF9kgBBhL9jqG2QGhHwVVb5PZAyW6zAIY",
+            authDomain: "zehin-ai.firebaseapp.com",
+            projectId: "zehin-ai",
+            storageBucket: "zehin-ai.firebasestorage.app",
+            messagingSenderId: "751560644845",
+            appId: "1:751560644845:web:6395f0005412902cf654e4"
+        };
+
+        // Firebase-i başlatmak
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // UI-y janly diňlemek
+        db.collection("settings").doc("appearance").onSnapshot((doc) => {
+            const data = doc.data();
+            const body = document.getElementById('mainContent');
+            const status = document.getElementById('statusBox');
+
+            if (data && data.color) {
+                // Reňki üýtgetmek
+                body.style.backgroundColor = data.color;
+                status.innerText = "Häzirki reňk: " + data.color;
+                status.style.color = data.color === 'purple' ? '#e879f9' : '#38bdf8';
+            } else {
+                status.innerText = "Firestore-da maglumat ýok!";
+            }
+        });
+    </script>
+</body>
+</html>
+
